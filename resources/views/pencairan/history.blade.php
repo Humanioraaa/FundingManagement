@@ -39,34 +39,40 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($donasi as $index => $m)
-                                <tr class="border-b border-neutral-200 dark:border-white/10">
-                                    <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $index + 1 }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">
-                                        {{ $m->MoneyDonation->Donation->Campaign->nama_campaign }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">
-                                        {{ $m->created_at }}</td>
-                                    <td>{{ $m->TahapPencairan->name }}</td>
-                                    <Td>{{ $m->MethodPayment->metode_pembayaran }}</Td>
-                                    <td>Nomor Rekening</td>
-                                    <td> {{ $m->nominal_terkumpul }} </td>
-                                    <td>
-                                        @unless ($m->pendukung === null)
-                                            <img src="{{ asset('storage/cover_images/' . $m->pendukung) }}"
-                                                alt="{{ $m->id }}" class="img-responsive">
-                                        @else
-                                            <img src="https://via.placeholder.com/640x480.png/F6F5F2?text=NoImageAvailable"
-                                                alt="No Image" class="img-responsive">
-                                        @endunless
-                                    </td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ $m->status }}</td>
-                                    <td>
-                                        @if ($m->status == 'approved')
-                                            {{ $m->updated_at }}
-                                        @endif
-                                    </td>
+                            @if ($donasi->isEmpty())
+                                <tr>
+                                    <td colspan="10" class="text-center py-4">Data tidak tersedia</td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($donasi as $index => $m)
+                                    <tr class="border-b border-neutral-200 dark:border-white/10">
+                                        <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $index + 1 }}</td>
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            {{ optional($m->MoneyDonation->Donation->Campaign)->nama_campaign }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">{{ $m->created_at }}</td>
+                                        <td>{{ optional($m->TahapPencairan)->name }}</td>
+                                        <td>{{ optional($m->MethodPayment)->metode_pembayaran }}</td>
+                                        <td>{{ $m->nomor_rekening }}</td>
+                                        <td>{{ $m->nominal_terkumpul }}</td>
+                                        <td>
+                                            @unless ($m->pendukung === null)
+                                                <img src="{{ asset('storage/cover_images/' . $m->pendukung) }}"
+                                                    alt="{{ $m->id }}" class="img-responsive" style="max-width: 100px">
+                                            @else
+                                                <img src="https://via.placeholder.com/640x480.png/F6F5F2?text=NoImageAvailable"
+                                                    alt="No Image" class="img-responsive" style="max-width: 100px">
+                                            @endunless
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">{{ $m->status }}</td>
+                                        <td>
+                                            @if ($m->status == 'approved')
+                                                {{ $m->updated_at }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

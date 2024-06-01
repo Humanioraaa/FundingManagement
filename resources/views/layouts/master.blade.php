@@ -248,7 +248,7 @@
                              </svg>
 
 
-                             <span class="text-s ms-3 flex-1 whitespace-nowrap text-sm">Riwayat Donasi</span>
+                             <span class="text-s ms-3 flex-1 whitespace-nowrap text-sm">Riwayat Pencairan</span>
                          </a>
                      </li>
                      <li>
